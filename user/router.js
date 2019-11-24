@@ -14,15 +14,16 @@ router.get('/user', async (req, res, next) => {
 });
 
 router.post('/user', async (req, res, next) => {
-  const { username, password } = req.body;
-  if (username === '' || password === '') {
+  const { username, email, password } = req.body;
+  if (username === '' || email === '' || password === '') {
     return res.status(400).send('Entry all inputs');
   }
-  console.log({ USER_NAME: username, PASSWORD: password });
+  console.log({ USER_NAME: username, PASSWORD: password, EMAIL: email });
 
   try {
     const newUser = await User.create({
       username,
+      email,
       password: bcrypt.hashSync(password, 10)
     });
     res.json(newUser);
